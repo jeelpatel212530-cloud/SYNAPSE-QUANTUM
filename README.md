@@ -1,5 +1,5 @@
 
-# SYNAPSE-QUANTUM# SYNAPSE-QUANTUM v3.0: Cleanroom Console
+# SYNAPSE-QUANTUM v3.0: Cleanroom Console
 
 **Live demo:** [SYNAPSE-QUANTUM v3.0 Cleanroom Console (Google Sites embed)](https://sites.google.com/view/synapse-quantum-v3-0-cleanroom/full-page-embed)
 
