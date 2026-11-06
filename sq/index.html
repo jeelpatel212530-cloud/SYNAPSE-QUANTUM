@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SYNAPSE-QUANTUM | 17-Node Biocomputer & ONNX Heston Engine</title>
+  <style>
+    :root {
+      --bg-primary: #05080f;
+      --bg-panel: #0c1322;
+      --accent-cyan: #00f5d4;
+      --accent-blue: #38bdf8;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      padding: 18px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .badge {
+      background: #0f2942;
+      color: var(--accent-cyan);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      border: 1px solid var(--accent-cyan);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+    }
+    h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+    }
+    canvas {
+      width: 100%;
+      height: 450px;
+      background: #050912;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: grab;
+    }
+    canvas:active { cursor: grabbing; }
+    .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .metric-card {
+      background: #070c17;
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .metric-label { font-size: 11px; color: var(--text-muted); }
+    .metric-value { font-size: 15px; font-weight: bold; color: var(--accent-cyan); margin-top: 4px; }
+    .controls label { display: block; font-size: 11px; margin: 8px 0 3px; color: var(--text-muted); }
+    .controls input[type="range"], .controls select, textarea {
+      width: 100%;
+      background: #070c17;
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      padding: 6px;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+    }
+    .row-inline {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      background: var(--accent-cyan);
+      color: #041019;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    button.quiz-btn {
+      background: #0f172a;
+      color: var(--text-main);
+      border: 1px solid #334155;
+      text-align: left;
+      font-weight: normal;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    button.quiz-btn:hover { border-color: var(--accent-cyan); }
+    .log-box {
+      margin-top: 10px;
+      padding: 8px;
+      background: #04070d;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>SYNAPSE-QUANTUM // 17-NODE CLEANROOM CONSOLE [v3.0]</h1>
+      <p style="font-size: 12px; color: var(--text-muted);">WebGPU RK4 + WebGL2 3D Dendritic Volume + ONNX.js Heston LSM + Biosecurity & Viva Examiner</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;"><div class="badge" style="border-color:#f59e0b;color:#f59e0b;">SIMULATION / DEMO — NOT FINANCIAL ADVICE</div><div id="gpu-status" class="badge">INITIALIZING WEBGPU & WEBGL2...</div></div>
+  </header>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Node 8, 11 & 13: 3D Volumetric Organoid & Dendritic Connectome (Drag to Orbit, Scroll to Zoom)</h2>
+      <canvas id="slm-canvas"></canvas>
+      <div id="bug-sniffer-log" class="log-box">[Node 11 Wavefront Artifact Tracer] Drag to orbit 3D cortical volume, scroll to zoom, or click a neuron cluster to queue Zernike phase correction.</div>
+    </div>
+
+    <div class="panel">
+      <h2>ONNX Liquid State Readout & Metabolic Telemetry</h2>
+      <div class="metrics">
+        <div class="metric-card">
+          <div class="metric-label">Mean Membrane Potential (Vm)</div>
+          <div id="val-vm" class="metric-value">-65.00 mV</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Cellular ATP Pool (M-M Kinetics)</div>
+          <div id="val-atp" class="metric-value">3.200 mM</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Heston Implied Vol (ONNX Readout)</div>
+          <div id="val-vol" class="metric-value">20.50%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Live L2OB Mid-Price</div>
+          <div id="val-spot" class="metric-value">$64250.00</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Parenchyma Temp (Node 6 Sentinel)</div>
+          <div id="val-temp" class="metric-value">37.00 °C</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Readout Alpha (signed) vs Ledger Cost</div>
+          <div id="val-alpha" class="metric-value">0.00 bps</div>
+        </div>
+      </div>
+
+      <div class="log-box">
+        <strong>ONNX Readout Engine:</strong> <span id="val-onnx">INITIALIZING...</span><br/>
+        <strong>L2 Orderbook Stream:</strong> <span id="val-l2">CONNECTING...</span><br/>
+        <strong>Node 6 Sentinel:</strong> <span id="val-sentinel">NOMINAL</span><br/>
+        <strong>Spiking / GS hologram:</strong> <span id="val-gs">...</span><br/>
+        <strong>Node 7 UPI QR URI:</strong> <span id="val-upi">upi://pay?... (DEMO)</span>
+      </div>
+
+      <div class="controls">
+        <label>Node 13 Fluorophore Emission Spectrum:</label>
+        <select id="palette-select">
+          <option value="0">Viridis (Colorblind-Safe Reference)</option>
+          <option value="1">GCaMP6f Calcium Indicator (515 nm Peak Green)</option>
+          <option value="2">mCherry Optogenetic Reporter (610 nm Peak Red)</option>
+          <option value="3">DAPI Nuclear Counterstain (461 nm Peak Blue)</option>
+        </select>
+
+        <label>SLM Two-Photon Laser Power (mW) [P_laser]:</label>
+        <input id="laser-power" type="range" min="5" max="120" step="1" value="35" />
+
+        <label>SLM Holographic Focal Plane Depth Z (μm):</label>
+        <input id="focal-depth" type="range" min="-300" max="300" step="5" value="0" />
+
+        <label>L2 Orderbook Bid-Ask Spread Velocity Modulation:</label>
+        <input id="market-spread" type="range" min="0.2" max="3.5" step="0.05" value="1.25" />
+
+        <div class="row-inline">
+          <input id="live-drive" type="checkbox" checked />
+          <span>Drive SLM from live L2 order book (overrides slider when feed is live)</span>
+        </div>
+        <div class="row-inline">
+          <input id="dendrite-toggle" type="checkbox" checked />
+          <span>Render 3D Volumetric Dendritic & Synaptic Filaments (1,800 Tracts)</span>
+        </div>
+
+        <button id="record-btn" style="background:#38bdf8;">Record reservoir states + L2 features (CSV for training)</button>
+        <button id="export-pdf-btn">Compile Offline A4 SOP & Redacted Forensic ELN (PDF)</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Node 4: Stateful Biosecurity Protocol Sandbox [Timer: <span id="sandbox-timer">90s</span>]</h2>
+      <div id="sandbox-prompt" class="log-box" style="color: var(--text-main); font-size: 12px;">Loading operator diagnostic...</div>
+      <div id="sandbox-options"></div>
+      <div id="sandbox-feedback" class="log-box">Select an option to validate operator readiness on photothermal cytotoxicity & Heston boundaries.</div>
+      <button id="sandbox-reset-btn" style="background:#38bdf8;">Reset Timed Biosecurity Certification</button>
+    </div>
+
+    <div class="panel">
+      <h2>Node 16: Adversarial Defense Viva Examiner (Peer-Review Simulator)</h2>
+      <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">
+        Peer-Review Challenge: Defend how your Gerchberg-Saxton phase mask and Heston readout remain valid under deep-tissue Henyey-Greenstein scattering (l_s = 180 μm), Feller variance bounds, and cellular ATP depletion.
+      </p>
+      <textarea id="viva-input" rows="4" placeholder="Enter your biophysical & stochastic defense (e.g., Henyey-Greenstein scattering attenuation exp(-2z/l_s) is compensated via Gerchberg-Saxton SLM phase weighting, while Feller bounds and Michaelis-Menten ATP kinetics throttle photothermal load)..."></textarea>
+      <button id="viva-submit-btn">Evaluate Viva Defense Response</button>
+      <div id="viva-feedback" class="log-box">[Node 16 Examiner] Awaiting operator defense submission.</div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

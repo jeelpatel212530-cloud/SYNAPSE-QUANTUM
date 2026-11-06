@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SYNAPSE-QUANTUM Extension</title>
+  <style>
+    body {
+      width: 340px; background: #05080f; color: #e2e8f0;
+      font-family: monospace; padding: 14px; margin: 0;
+    }
+    h3 { color: #00f5d4; font-size: 13px; margin: 0 0 8px; }
+    .box {
+      background: #0c1322; border: 1px solid #1e293b;
+      padding: 10px; border-radius: 4px; margin-bottom: 10px; font-size: 11px;
+    }
+    button {
+      width: 100%; padding: 8px; margin-top: 6px;
+      background: #00f5d4; color: #041019; font-weight: bold;
+      border: none; border-radius: 4px; cursor: pointer; font-family: inherit;
+    }
+    button.secondary { background: #38bdf8; }
+  </style>
+</head>
+<body>
+  <h3>SYNAPSE-QUANTUM // MV3 DAEMON</h3>
+  <div class="box">
+    <strong>Node 14 WGSL Heap Reclaimer</strong>
+    <div id="heap-status" style="margin-top:4px; color:#94a3b8;">Ready to discard idle tabs for RK4 grids.</div>
+    <button id="btn-reclaim">Discard Idle Tabs (Free GPU/System RAM)</button>
+  </div>
+  <div class="box">
+    <strong>Node 9 Neuromorphic Media Gate</strong>
+    <div id="gate-status" style="margin-top:4px; color:#94a3b8;">YouTube Optical/Heston Quiz Gate Active</div>
+    <button id="btn-lock" class="secondary">Force Re-Lock Media Gate Now</button>
+  </div>
+  <div class="box">
+    <strong>Node 10 Quant/Wetware Grant Scraper</strong>
+    <button id="btn-scrape">Scrape Grants.gov to Kanban</button>
+    <div id="scrape-status" style="margin-top:4px;color:#94a3b8;"></div>
+    <div id="kanban-list" style="margin-top:6px; color:#94a3b8; max-height:110px; overflow-y:auto;"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

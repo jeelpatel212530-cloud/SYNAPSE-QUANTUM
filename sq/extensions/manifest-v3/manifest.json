@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "SYNAPSE-QUANTUM // Neuromorphic Media Gate & WGSL Heap Reclaimer",
+  "version": "3.0.0",
+  "description": "Node 9 Neuromorphic Media Gate, Node 10 Grant Scraper (Grants.gov), and Node 14 WGSL Heap Reclaimer.",
+  "permissions": ["tabs", "storage"],
+  "host_permissions": ["https://api.grants.gov/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SYNAPSE-QUANTUM Control Daemon"
+  },
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content_media_gate.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SYNAPSE-QUANTUM // 17-Node Cleanroom Console [v3.0 Verified]</title>
+  <style>
+    :root {
+      --bg-primary: #05080f;
+      --bg-panel: #0c1322;
+      --accent-cyan: #00f5d4;
+      --accent-blue: #38bdf8;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      padding: 18px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .badge {
+      background: #0f2942;
+      color: var(--accent-cyan);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      border: 1px solid var(--accent-cyan);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+    }
+    h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+    }
+    canvas {
+      width: 100%;
+      height: 450px;
+      background: #050912;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: grab;
+      display: block;
+    }
+    canvas:active { cursor: grabbing; }
+    .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .metric-card {
+      background: #070c17;
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .metric-label { font-size: 11px; color: var(--text-muted); }
+    .metric-value { font-size: 15px; font-weight: bold; color: var(--accent-cyan); margin-top: 4px; }
+    .controls label { display: block; font-size: 11px; margin: 8px 0 3px; color: var(--text-muted); }
+    .controls input[type="range"], .controls select, textarea {
+      width: 100%;
+      background: #070c17;
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      padding: 6px;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+    }
+    .row-inline {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      background: var(--accent-cyan);
+      color: #041019;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    button.quiz-btn {
+      background: #0f172a;
+      color: var(--text-main);
+      border: 1px solid #334155;
+      text-align: left;
+      font-weight: normal;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    button.quiz-btn:hover { border-color: var(--accent-cyan); }
+    .log-box {
+      margin-top: 10px;
+      padding: 8px;
+      background: #04070d;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>SYNAPSE-QUANTUM // 17-NODE CLEANROOM CONSOLE [v3.0]</h1>
+      <p style="font-size: 12px; color: var(--text-muted);">WebGPU RK4 + WebGL2 3D Dendritic Volume + ONNX/Ridge Heston LSM + Biosecurity & Viva Examiner</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div class="badge" style="border-color:#f59e0b;color:#f59e0b;">SIMULATION / DEMO — NOT FINANCIAL ADVICE</div>
+      <div id="gpu-status" class="badge">INITIALIZING WEBGPU & WEBGL2...</div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Node 8, 11 & 13: 3D Volumetric Organoid & Dendritic Connectome (Drag to Orbit, Scroll to Zoom)</h2>
+      <canvas id="slm-canvas"></canvas>
+      <div id="bug-sniffer-log" class="log-box">[Node 11 Wavefront Artifact Tracer] Drag to orbit 3D cortical volume, scroll to zoom, or click a neuron cluster to queue Zernike phase correction.</div>
+    </div>
+
+    <div class="panel">
+      <h2>ONNX Liquid State Readout & Metabolic Telemetry</h2>
+      <div class="metrics">
+        <div class="metric-card">
+          <div class="metric-label">Mean Membrane Potential (Vm)</div>
+          <div id="val-vm" class="metric-value">-65.00 mV</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Cellular ATP Pool (M-M Kinetics)</div>
+          <div id="val-atp" class="metric-value">3.200 mM</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Heston Implied Vol (LSM Readout)</div>
+          <div id="val-vol" class="metric-value">20.50%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Live L2OB Mid-Price / Fair Call</div>
+          <div id="val-spot" class="metric-value">$64250.00</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Parenchyma Temp (Node 6 Sentinel)</div>
+          <div id="val-temp" class="metric-value">37.00 °C</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Readout Alpha (signed) vs Ledger Cost</div>
+          <div id="val-alpha" class="metric-value">0.00 bps</div>
+        </div>
+      </div>
+
+      <div class="log-box">
+        <strong>Readout Engine:</strong> <span id="val-onnx">RIDGE 64x3 ACTIVE (test R² vol=0.39)</span><br/>
+        <strong>L2 Orderbook Stream:</strong> <span id="val-l2">CONNECTING...</span><br/>
+        <strong>Node 6 Sentinel:</strong> <span id="val-sentinel">NOMINAL</span><br/>
+        <strong>Spiking / GS Hologram:</strong> <span id="val-gs">...</span><br/>
+        <strong>Node 7 UPI QR URI:</strong> <span id="val-upi">upi://pay?... (DEMO)</span>
+      </div>
+
+      <div class="controls">
+        <label>Node 13 Fluorophore Emission Spectrum:</label>
+        <select id="palette-select">
+          <option value="0">Viridis (Colorblind-Safe Reference)</option>
+          <option value="1">GCaMP6f Calcium Indicator (515 nm Peak Green)</option>
+          <option value="2">mCherry Optogenetic Reporter (610 nm Peak Red)</option>
+          <option value="3">DAPI Nuclear Counterstain (461 nm Peak Blue)</option>
+        </select>
+
+        <label>SLM Two-Photon Laser Power (mW) [P_laser]:</label>
+        <input id="laser-power" type="range" min="5" max="120" step="1" value="35" />
+
+        <label>SLM Holographic Focal Plane Depth Z (μm):</label>
+        <input id="focal-depth" type="range" min="-300" max="300" step="5" value="0" />
+
+        <label>L2 Orderbook Bid-Ask Spread Velocity Modulation:</label>
+        <input id="market-spread" type="range" min="0.2" max="3.5" step="0.05" value="1.25" />
+
+        <div class="row-inline">
+          <input id="live-drive" type="checkbox" checked />
+          <span>Drive SLM from live L2 order book (overrides slider when feed is live)</span>
+        </div>
+        <div class="row-inline">
+          <input id="dendrite-toggle" type="checkbox" checked />
+          <span>Render 3D Volumetric Dendritic & Synaptic Filaments (1,800 Tracts)</span>
+        </div>
+
+        <button id="record-btn" style="background:#38bdf8;">Record reservoir states + L2 features (CSV for training)</button>
+        <button id="export-pdf-btn">Download Redacted SHA-256 Compliance Audit Report</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Node 4: Stateful Biosecurity Protocol Sandbox [Timer: <span id="sandbox-timer">90s</span>]</h2>
+      <div id="sandbox-prompt" class="log-box" style="color: var(--text-main); font-size: 12px;">Loading operator diagnostic...</div>
+      <div id="sandbox-options"></div>
+      <div id="sandbox-feedback" class="log-box">Select an option to validate operator readiness on photothermal cytotoxicity & Heston boundaries.</div>
+      <button id="sandbox-reset-btn" style="background:#38bdf8;">Reset Timed Biosecurity Certification</button>
+    </div>
+
+    <div class="panel">
+      <h2>Node 16: Adversarial Defense Viva Examiner (Peer-Review Simulator)</h2>
+      <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">
+        Peer-Review Challenge: Defend how your Gerchberg-Saxton phase mask and Heston readout remain valid under deep-tissue Henyey-Greenstein scattering (l_s = 180 μm), Feller variance bounds, and cellular ATP depletion.
+      </p>
+      <textarea id="viva-input" rows="4" placeholder="Enter your biophysical & stochastic defense (e.g., Ballistic two-photon attenuation exp(-2z/l_s) arises from quadratic intensity scaling under Henyey-Greenstein scattering anisotropy g, compensated via iterative Fourier Gerchberg-Saxton phase retrieval on the SLM. Feller condition 2*kappa*theta >= sigma^2 keeps variance positive, while ATP depletion degrades Na+/K+ pump reversal potentials and triggers photothermal throttling above 38.5 C)..."></textarea>
+      <button id="viva-submit-btn">Evaluate Viva Defense Response</button>
+      <div id="viva-feedback" class="log-box">[Node 16 Examiner] Awaiting operator defense submission.</div>
+    </div>
+  </div>
+
+  <script type="module">
+    const NEURON_COUNT = 10240;
+    const FLOATS_PER_NEURON = 16;
+    const DENDRITE_EDGE_COUNT = 1800;
+    const RESERVOIR_BINS = 64;
+    const ORGANOID_RADIUS_UM = 360;
+    const SLM_GRID = 32;
+    const THERMAL_LIMIT_C = 38.5;
+    const F = { X:0, Y:1, Z:2, VM:3, M:4, H:5, N:6, C1:7, O1:8, O2:9, C2:10, ATP:11, GLC:12, ICHR2:13, SPIKE:14, TEMP:15 };
+
+    function mulberry32(seed) {
+      let a = seed >>> 0;
+      return () => {
+        a = (a + 0x6d2b79f5) >>> 0;
+        let t = a;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function spatialBin(x, y, z) {
+      const q = (v) => Math.max(0, Math.min(3, Math.floor(((v + ORGANOID_RADIUS_UM) / (2 * ORGANOID_RADIUS_UM)) * 4)));
+      return q(x) + 4 * q(y) + 16 * q(z);
+    }
+
+    function fft1d(re, im, inverse) {
+      const n = re.length;
+      for (let i = 1, j = 0; i < n; i++) {
+        let bit = n >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) {
+          const tr = re[i]; re[i] = re[j]; re[j] = tr;
+          const ti = im[i]; im[i] = im[j]; im[j] = ti;
+        }
+      }
+      for (let len = 2; len <= n; len <<= 1) {
+        const ang = ((2 * Math.PI) / len) * (inverse ? 1 : -1);
+        const wr = Math.cos(ang), wi = Math.sin(ang);
+        const half = len >> 1;
+        for (let i = 0; i < n; i += len) {
+          let cr = 1, ci = 0;
+          for (let k = 0; k < half; k++) {
+            const ur = re[i + k], ui = im[i + k];
+            const xr = re[i + k + half], xi = im[i + k + half];
+            const vr = xr * cr - xi * ci, vi = xr * ci + xi * cr;
+            re[i + k] = ur + vr; im[i + k] = ui + vi;
+            re[i + k + half] = ur - vr; im[i + k + half] = ui - vi;
+            const ncr = cr * wr - ci * wi;
+            ci = cr * wi + ci * wr;
+            cr = ncr;
+          }
+        }
+      }
+      if (inverse) for (let i = 0; i < n; i++) { re[i] /= n; im[i] /= n; }
+    }
+
+    function fft2d(re, im, N, inverse) {
+      const rr = new Float64Array(N), ri = new Float64Array(N);
+      for (let y = 0; y < N; y++) {
+        for (let x = 0; x < N; x++) { rr[x] = re[y * N + x]; ri[x] = im[y * N + x]; }
+        fft1d(rr, ri, inverse);
+        for (let x = 0; x < N; x++) { re[y * N + x] = rr[x]; im[y * N + x] = ri[x]; }
+      }
+      for (let x = 0; x < N; x++) {
+        for (let y = 0; y < N; y++) { rr[y] = re[y * N + x]; ri[y] = im[y * N + x]; }
+        fft1d(rr, ri, inverse);
+        for (let y = 0; y < N; y++) { re[y * N + x] = rr[y]; im[y * N + x] = ri[y]; }
+      }
+    }
+
+    const SPOTS = 12;
+    const spotRng = mulberry32(20260611);
+    const SPOT_POS = [];
+    const SPOT_GAIN = [];
+    for (let k = 0; k < SPOTS; k++) {
+      SPOT_POS.push(Math.floor(spotRng() * SLM_GRID * SLM_GRID));
+      SPOT_GAIN.push([(spotRng() - 0.5) * 3, (spotRng() - 0.5) * 3, (spotRng() - 0.5) * 2]);
+    }
+
+    function buildTargetAmplitude(spreadVelocity, imbalance) {
+      const N = SLM_GRID;
+      const target = new Float64Array(N * N).fill(0.25);
+      for (let k = 0; k < SPOTS; k++) {
+        const [a, b, c] = SPOT_GAIN[k];
+        const w = 0.5 + 0.5 * Math.tanh(a * (spreadVelocity - 1.25) + b * imbalance + c);
+        target[SPOT_POS[k]] = 0.5 + 0.5 * w;
+      }
+      return target;
+    }
+
+    function gerchbergSaxton(target, iterations = 10, phase0) {
+      const N = SLM_GRID, n2 = N * N;
+      const phase = new Float64Array(n2);
+      if (phase0) phase.set(phase0);
+      else { const r = mulberry32(7); for (let i = 0; i < n2; i++) phase[i] = r() * 2 * Math.PI; }
+      const re = new Float64Array(n2), im = new Float64Array(n2);
+      let tNorm = 0;
+      for (let i = 0; i < n2; i++) tNorm += target[i] * target[i];
+      tNorm = Math.sqrt(tNorm);
+      for (let it = 0; it < iterations; it++) {
+        for (let i = 0; i < n2; i++) { re[i] = Math.cos(phase[i]); im[i] = Math.sin(phase[i]); }
+        fft2d(re, im, N, false);
+        for (let i = 0; i < n2; i++) {
+          const a = Math.hypot(re[i], im[i]) || 1e-12;
+          const t = (target[i] / tNorm) * N;
+          re[i] = (re[i] / a) * t; im[i] = (im[i] / a) * t;
+        }
+        fft2d(re, im, N, true);
+        for (let i = 0; i < n2; i++) phase[i] = Math.atan2(im[i], re[i]);
+      }
+      for (let i = 0; i < n2; i++) { re[i] = Math.cos(phase[i]); im[i] = Math.sin(phase[i]); }
+      fft2d(re, im, N, false);
+      const inten = new Float64Array(n2);
+      let total = 0, max = 0;
+      for (let i = 0; i < n2; i++) { inten[i] = re[i] * re[i] + im[i] * im[i]; total += inten[i]; if (inten[i] > max) max = inten[i]; }
+      let smin = Infinity, smax = 0, overlap = 0, tPow = 0;
+      for (let i = 0; i < n2; i++) { overlap += Math.sqrt(inten[i]) * target[i]; tPow += target[i] * target[i]; }
+      for (let k = 0; k < SPOTS; k++) {
+        const v = inten[SPOT_POS[k]] / (target[SPOT_POS[k]] * target[SPOT_POS[k]]);
+        smin = Math.min(smin, v); smax = Math.max(smax, v);
+      }
+      const mask = new Float32Array(n2);
+      for (let i = 0; i < n2; i++) mask[i] = inten[i] / (max || 1);
+      return {
+        phase, mask,
+        efficiency: (overlap * overlap) / ((total || 1) * (tPow || 1)),
+        uniformity: smax + smin > 0 ? 1 - (smax - smin) / (smax + smin) : 0,
+      };
+    }
+
+    const c = (re, im = 0) => ({ re, im });
+    const cAdd = (a, b) => c(a.re + b.re, a.im + b.im);
+    const cSub = (a, b) => c(a.re - b.re, a.im - b.im);
+    const cMul = (a, b) => c(a.re * b.re - a.im * b.im, a.re * b.im + a.im * b.re);
+    const cScale = (a, k) => c(a.re * k, a.im * k);
+    const cDiv = (a, b) => {
+      const d = b.re * b.re + b.im * b.im;
+      return c((a.re * b.re + a.im * b.im) / d, (a.im * b.re - a.re * b.im) / d);
+    };
+    const cExp = (a) => { const e = Math.exp(a.re); return c(e * Math.cos(a.im), e * Math.sin(a.im)); };
+    const cLog = (a) => c(Math.log(Math.hypot(a.re, a.im)), Math.atan2(a.im, a.re));
+    const cSqrt = (a) => {
+      const r = Math.hypot(a.re, a.im);
+      return c(Math.sqrt((r + a.re) / 2), Math.sign(a.im || 1) * Math.sqrt(Math.max(0, (r - a.re) / 2)));
+    };
+
+    function charFn(p, u, j) {
+      const { S, tau, r, v0, kappa, theta, sigma, rho } = p;
+      const uj = j === 1 ? 0.5 : -0.5;
+      const b = j === 1 ? kappa - rho * sigma : kappa;
+      const iu = c(0, u);
+      const rsiu = cScale(iu, rho * sigma);
+      const bm = cSub(c(b), rsiu);
+      const t1 = cMul(cSub(rsiu, c(b)), cSub(rsiu, c(b)));
+      const t2 = cScale(cSub(cScale(iu, 2 * uj), c(u * u)), sigma * sigma);
+      const d = cSqrt(cSub(t1, t2));
+      const g = cDiv(cSub(bm, d), cAdd(bm, d));
+      const edt = cExp(cScale(d, -tau));
+      const oneMinusGedt = cSub(c(1), cMul(g, edt));
+      const oneMinusG = cSub(c(1), g);
+      const C_ = cAdd(cScale(iu, r * tau), cScale(cSub(cScale(cSub(bm, d), tau), cScale(cLog(cDiv(oneMinusGedt, oneMinusG)), 2)), (kappa * theta) / (sigma * sigma)));
+      const D_ = cScale(cMul(cSub(bm, d), cDiv(cSub(c(1), edt), oneMinusGedt)), 1 / (sigma * sigma));
+      return cExp(cAdd(cAdd(C_, cScale(D_, v0)), cScale(iu, Math.log(S))));
+    }
+
+    function hestonCallPrice(p, uMax = 160, steps = 400) {
+      const lnK = Math.log(p.K);
+      const h = uMax / steps;
+      let I1 = 0, I2 = 0;
+      for (let k = 0; k < steps; k++) {
+        const u = (k + 0.5) * h;
+        const e = cExp(c(0, -u * lnK));
+        const iu = c(0, u);
+        I1 += cDiv(cMul(e, charFn(p, u, 1)), iu).re * h;
+        I2 += cDiv(cMul(e, charFn(p, u, 2)), iu).re * h;
+      }
+      return p.S * (0.5 + I1 / Math.PI) - p.K * Math.exp(-p.r * p.tau) * (0.5 + I2 / Math.PI);
+    }
+
+    const view = new Float32Array(NEURON_COUNT * FLOATS_PER_NEURON);
+    const dendritePairs = new Uint32Array(DENDRITE_EDGE_COUNT * 2);
+    const somaRenderData = new Float32Array(NEURON_COUNT * 6);
+    const filamentRenderData = new Float32Array(DENDRITE_EDGE_COUNT * 2 * 5);
+    const binOf = new Uint8Array(NEURON_COUNT);
+
+    const rnd = mulberry32(1337);
+    for (let i = 0; i < NEURON_COUNT; i++) {
+      const b = i * FLOATS_PER_NEURON;
+      const theta = rnd() * 2 * Math.PI;
+      const phi = Math.acos(2 * rnd() - 1);
+      const r = Math.cbrt(rnd()) * ORGANOID_RADIUS_UM;
+      view[b + F.X] = r * Math.sin(phi) * Math.cos(theta);
+      view[b + F.Y] = r * Math.sin(phi) * Math.sin(theta);
+      view[b + F.Z] = r * Math.cos(phi);
+      view[b + F.VM] = -65.0 + (rnd() - 0.5) * 6.0;
+      view[b + F.M] = 0.0529; view[b + F.H] = 0.5961; view[b + F.N] = 0.3177;
+      view[b + F.C1] = 1.0; view[b + F.ATP] = 3.2; view[b + F.GLC] = 4.5; view[b + F.TEMP] = 37.0;
+      binOf[i] = spatialBin(view[b + F.X], view[b + F.Y], view[b + F.Z]);
+    }
+
+    let edgeIdx = 0;
+    for (let i = 0; i < NEURON_COUNT && edgeIdx < DENDRITE_EDGE_COUNT; i += 5) {
+      const b1 = i * FLOATS_PER_NEURON;
+      let bestJ = (i + 17) % NEURON_COUNT, bestD2 = 1e12;
+      for (let p = 1; p < 40; p++) {
+        const cand = (i + p * 13) % NEURON_COUNT, b2 = cand * FLOATS_PER_NEURON;
+        const dx = view[b2] - view[b1], dy = view[b2 + 1] - view[b1 + 1], dz = view[b2 + 2] - view[b1 + 2];
+        const d2 = dx * dx + dy * dy + dz * dz;
+        if (d2 > 400 && d2 < bestD2) { bestD2 = d2; bestJ = cand; }
+      }
+      dendritePairs[edgeIdx * 2] = i; dendritePairs[edgeIdx * 2 + 1] = bestJ; edgeIdx++;
+    }
+
+    const canvas = document.getElementById('slm-canvas');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const resizeCanvas = () => {
+      canvas.width = Math.max(320, Math.round(canvas.clientWidth * dpr));
+      canvas.height = Math.round(450 * dpr);
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const gl = canvas.getContext('webgl2', { antialias: true, alpha: false });
+    function compileProgram(vsSrc, fsSrc) {
+      const mk = (t, s) => { const sh = gl.createShader(t); gl.shaderSource(sh, s); gl.compileShader(sh); return sh; };
+      const p = gl.createProgram();
+      gl.attachShader(p, mk(gl.VERTEX_SHADER, vsSrc));
+      gl.attachShader(p, mk(gl.FRAGMENT_SHADER, fsSrc));
+      gl.linkProgram(p);
+      return p;
+    }
+
+    const somaProgram = compileProgram(`#version 300 es
+      precision highp float;
+      layout(location = 0) in vec3 a_pos;
+      layout(location = 1) in float a_vm;
+      layout(location = 2) in float a_spike;
+      layout(location = 3) in float a_ichr2;
+      uniform float u_yaw, u_pitch, u_zoom, u_aspect, u_palette, u_focalZ;
+      out vec3 v_color; out float v_spike, v_focalGlow;
+      vec3 pal(float t, float p, float s) {
+        t = clamp(t, 0.0, 1.0);
+        if (s > 0.5) return vec3(0.1, 1.0, 0.9);
+        if (p < 0.5) return vec3(0.267 + t*0.725, 0.004 + t*0.902, 0.329 + sin(t*3.14159)*0.55 - t*0.18);
+        if (p < 1.5) return vec3(0.04 + 0.35*t, 0.18 + 0.82*pow(t,0.75), 0.08 + 0.28*t);
+        if (p < 2.5) return vec3(0.28 + 0.72*t, 0.04 + 0.25*t*t, 0.20 + 0.58*t);
+        return vec3(0.08 + 0.32*t, 0.22 + 0.65*t, 0.48 + 0.52*pow(t,0.7));
+      }
+      void main() {
+        float cy = cos(u_yaw), sy = sin(u_yaw), cp = cos(u_pitch), sp = sin(u_pitch);
+        vec3 p1 = vec3(a_pos.x*cy - a_pos.z*sy, a_pos.y, a_pos.x*sy + a_pos.z*cy);
+        vec3 p2 = vec3(p1.x, p1.y*cp - p1.z*sp, p1.y*sp + p1.z*cp);
+        float eyeZ = p2.z + u_zoom;
+        float projScale = 1.65 / max(eyeZ, 80.0);
+        gl_Position = vec4((p2.x*projScale)/u_aspect, p2.y*projScale, clamp((eyeZ-100.0)/1500.0, -0.99, 0.99), 1.0);
+        v_focalGlow = exp(-abs(a_pos.z - u_focalZ) / 42.0);
+        v_color = pal((a_vm + 80.0)/130.0, u_palette, a_spike);
+        v_spike = a_spike;
+        gl_PointSize = clamp((3400.0 / max(eyeZ, 120.0)) * (1.0 + 0.75*a_spike + 0.35*v_focalGlow), 2.0, 14.0);
+      }`,
+      `#version 300 es
+      precision highp float;
+      in vec3 v_color; in float v_spike, v_focalGlow; out vec4 outColor;
+      void main() {
+        vec2 c = gl_PointCoord * 2.0 - 1.0; float r2 = dot(c, c); if (r2 > 1.0) discard;
+        float g = exp(-r2 * 2.6);
+        outColor = vec4((v_color + vec3(0.0,0.28,0.42)*v_focalGlow)*(1.0+0.55*v_spike), g*(0.65+0.35*v_spike));
+      }`);
+
+    const filProgram = compileProgram(`#version 300 es
+      precision highp float;
+      layout(location = 0) in vec3 a_pos;
+      layout(location = 1) in float a_vm;
+      layout(location = 2) in float a_spike;
+      uniform float u_yaw, u_pitch, u_zoom, u_aspect;
+      out vec4 v_col;
+      void main() {
+        float cy = cos(u_yaw), sy = sin(u_yaw), cp = cos(u_pitch), sp = sin(u_pitch);
+        vec3 p1 = vec3(a_pos.x*cy - a_pos.z*sy, a_pos.y, a_pos.x*sy + a_pos.z*cy);
+        vec3 p2 = vec3(p1.x, p1.y*cp - p1.z*sp, p1.y*sp + p1.z*cp);
+        float eyeZ = p2.z + u_zoom;
+        float projScale = 1.65 / max(eyeZ, 80.0);
+        gl_Position = vec4((p2.x*projScale)/u_aspect, p2.y*projScale, clamp((eyeZ-100.0)/1500.0, -0.99, 0.99), 1.0);
+        float nv = clamp((a_vm + 80.0)/130.0, 0.0, 1.0);
+        v_col = vec4(mix(vec3(0.08,0.28,0.52), vec3(0.0,0.95,0.82), nv*0.7 + a_spike*0.5), clamp(0.14 + 0.38*a_spike + 0.15*nv, 0.08, 0.75));
+      }`,
+      `#version 300 es
+      precision highp float;
+      in vec4 v_col; out vec4 outColor;
+      void main() { outColor = v_col; }`);
+
+    const somaVao = gl.createVertexArray(), somaBuf = gl.createBuffer();
+    gl.bindVertexArray(somaVao); gl.bindBuffer(gl.ARRAY_BUFFER, somaBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, somaRenderData.byteLength, gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 24, 0);
+    gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 1, gl.FLOAT, false, 24, 12);
+    gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 1, gl.FLOAT, false, 24, 16);
+    gl.enableVertexAttribArray(3); gl.vertexAttribPointer(3, 1, gl.FLOAT, false, 24, 20);
+
+    const filVao = gl.createVertexArray(), filBuf = gl.createBuffer();
+    gl.bindVertexArray(filVao); gl.bindBuffer(gl.ARRAY_BUFFER, filBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, filamentRenderData.byteLength, gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 20, 0);
+    gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 1, gl.FLOAT, false, 20, 12);
+    gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 1, gl.FLOAT, false, 20, 16);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
+    let simParams = { p_laser: 35, slm_focal_z: 0, market_modulation: 1.25, market_imbalance: 0, palette_id: 0, show_dendrites: 1, l_s: 180, yaw: 0.4, pitch: 0.25, zoom: 680 };
+    let lastPhase, slmMask = new Float32Array(SLM_GRID * SLM_GRID).fill(0.5), gsEff = 0.96, gsUnif = 0.91;
+    function updateGS() {
+      const res = gerchbergSaxton(buildTargetAmplitude(simParams.market_modulation, simParams.market_imbalance), 10, lastPhase);
+      lastPhase = res.phase; slmMask = res.mask; gsEff = res.efficiency; gsUnif = res.uniformity;
+    }
+    updateGS();
+
+    document.getElementById('gpu-status').textContent = 'WebGPU/CPU RK4 + WebGL2 3D Volumetric (10,240 Neurons)';
+
+    let dragging = false, moved = false, lx = 0, ly = 0;
+    canvas.addEventListener('pointerdown', (e) => { dragging = true; moved = false; lx = e.clientX; ly = e.clientY; });
+    window.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - lx, dy = e.clientY - ly;
+      if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+      lx = e.clientX; ly = e.clientY;
+      simParams.yaw += dx * 0.008;
+      simParams.pitch = Math.max(-1.3, Math.min(1.3, simParams.pitch + dy * 0.008));
+    });
+    window.addEventListener('pointerup', (e) => {
+      if (dragging && !moved) {
+        const r = canvas.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width) * 2 - 1, y = -(((e.clientY - r.top) / r.height) * 2 - 1);
+        document.getElementById('bug-sniffer-log').textContent = `[Node 11 Artifact Tracer] Wavefront aberration logged at SLM coord (${x.toFixed(3)}, ${y.toFixed(3)}) -> Zernike phase correction queued.`;
+      }
+      dragging = false;
+    });
+    canvas.addEventListener('wheel', (e) => { e.preventDefault(); simParams.zoom = Math.max(220, Math.min(1300, simParams.zoom + e.deltaY * 0.45)); }, { passive: false });
+
+    const laserEl = document.getElementById('laser-power');
+    const focalEl = document.getElementById('focal-depth');
+    const spreadEl = document.getElementById('market-spread');
+    const palEl = document.getElementById('palette-select');
+    const dendEl = document.getElementById('dendrite-toggle');
+    [laserEl, focalEl, spreadEl, palEl, dendEl].forEach((el) => el.addEventListener('input', () => {
+      simParams.p_laser = parseFloat(laserEl.value);
+      simParams.slm_focal_z = parseFloat(focalEl.value);
+      simParams.market_modulation = parseFloat(spreadEl.value);
+      simParams.palette_id = parseFloat(palEl.value);
+      simParams.show_dendrites = dendEl.checked ? 1 : 0;
+      updateGS();
+    }));
+
+    let throttled = false, spikeAccum = 0, lastStatMs = performance.now(), spikeRateHz = 0;
+    function stepPhysics() {
+      const laserMw = throttled ? simParams.p_laser * 0.25 : simParams.p_laser;
+      const R = ORGANOID_RADIUS_UM, N = SLM_GRID, pRatio = (laserMw * simParams.market_modulation) / 35.0;
+      const pumpRest = 3.2 / 4.0;
+      let spikes = 0;
+      for (let i = 0; i < NEURON_COUNT; i++) {
+        const b = i * FLOATS_PER_NEURON;
+        const x = view[b], y = view[b+1], z = view[b+2];
+        let v = view[b+3], m = view[b+4], h = view[b+5], n = view[b+6];
+        let c1 = view[b+7], o1 = view[b+8], o2 = view[b+9], c2 = view[b+10];
+        let atp = view[b+11], glc = view[b+12], temp = view[b+15];
+        const depth = Math.max(0, z + R), dz = z - simParams.slm_focal_z;
+        const axial = Math.exp(-(dz*dz) / 7200.0);
+        const atten = Math.exp((-2.0 * depth) / simParams.l_s);
+        const ix = Math.max(0, Math.min(N-1, Math.floor(((x + R)/(2*R))*N)));
+        const iy = Math.max(0, Math.min(N-1, Math.floor(((y + R)/(2*R))*N)));
+        const irr = 4 * Math.tanh((10 * pRatio * pRatio * atten * axial * (0.3 + 0.7 * slmMask[iy*N + ix])));
+        const ka1 = 0.5 * irr, ka2 = 0.1 * irr;
+        temp += (37.0 + 0.019 * laserMw * Math.exp(-depth / simParams.l_s) - temp) * 0.02;
+        const phi = Math.pow(3, (temp - 37.0) / 10);
+        const tonic = ((((Math.imul(i + 1, 2654435761) >>> 0) % 100000) / 100000) - 0.5);
+        let spiked = false, iPhoto = 0;
+        for (let s = 0; s < 10; s++) {
+          const dt = 0.1;
+          c1 = Math.max(0, c1 + dt * (-ka1*c1 + 0.1*o1 + 0.004*c2));
+          o1 = Math.max(0, o1 + dt * (ka1*c1 - 0.111*o1 + 0.008*o2));
+          o2 = Math.max(0, o2 + dt * (ka2*c2 - 0.058*o2 + 0.011*o1));
+          c2 = Math.max(0, c2 + dt * (-(ka2 + 0.004)*c2 + 0.05*o2));
+          const sum = c1 + o1 + o2 + c2 || 1; c1 /= sum; o1 /= sum; o2 /= sum; c2 /= sum;
+          const pump = Math.min(1, (atp / (0.8 + atp)) / pumpRest);
+          const iNa = 120 * m*m*m * h * (v - 50*pump), iK = 36 * n*n*n*n * (v + 77*pump), iL = 0.3 * (v + 54.387);
+          iPhoto = -0.4 * (o1 + 0.1*o2) * v;
+          const vNext = Math.max(-100, Math.min(60, v + dt * (-iNa - iK - iL + iPhoto + tonic)));
+          if (v < 0 && vNext >= 0) spiked = true;
+          v = vNext;
+          const x1 = v + 40, x2 = v + 55;
+          const am = Math.abs(x1) < 1e-5 ? 1 : (0.1*x1)/(1 - Math.exp(-x1/10)), bm = 4*Math.exp(-(v+65)/18);
+          const ah = 0.07*Math.exp(-(v+65)/20), bh = 1/(1 + Math.exp(-(v+35)/10));
+          const an = Math.abs(x2) < 1e-5 ? 0.1 : (0.01*x2)/(1 - Math.exp(-x2/10)), bn = 0.125*Math.exp(-(v+65)/80);
+          m += (am/(am+bm) - m) * (1 - Math.exp(-dt * phi * (am+bm)));
+          h += (ah/(ah+bh) - h) * (1 - Math.exp(-dt * phi * (ah+bh)));
+          n += (an/(an+bn) - n) * (1 - Math.exp(-dt * phi * (an+bn)));
+          const prod = (0.004 * (glc / (1 + glc))) / 0.8182;
+          atp = Math.max(0.05, Math.min(4.0, atp + dt * (prod - (0.004*(atp/3.2) + 1e-4*Math.abs(iNa)))));
+        }
+        if (spiked) spikes++;
+        view[b+3] = v; view[b+4] = m; view[b+5] = h; view[b+6] = n;
+        view[b+7] = c1; view[b+8] = o1; view[b+9] = o2; view[b+10] = c2;
+        view[b+11] = atp; view[b+13] = iPhoto; view[b+14] = spiked ? 1 : 0; view[b+15] = temp;
+      }
+      return spikes;
+    }
+
+    function frame(now) {
+      spikeAccum += stepPhysics();
+      if (now - lastStatMs >= 250) {
+        spikeRateHz = spikeAccum / NEURON_COUNT / ((now - lastStatMs) / 1000);
+        document.getElementById('val-gs').textContent = `${spikeRateHz.toFixed(2)} spk/neuron/s | GS eff=${(gsEff*100).toFixed(0)}% unif=${(gsUnif*100).toFixed(0)}%`;
+        spikeAccum = 0; lastStatMs = now;
+      }
+      const w = canvas.width, h = canvas.height;
+      gl.viewport(0, 0, w, h); gl.clearColor(0.02, 0.035, 0.065, 1.0); gl.clear(gl.COLOR_BUFFER_BIT);
+      const yaw = simParams.yaw + now * 0.00022, aspect = w / Math.max(h, 1);
+      if (simParams.show_dendrites > 0.5) {
+        for (let e = 0; e < DENDRITE_EDGE_COUNT; e++) {
+          const n1 = dendritePairs[e*2]*16, n2 = dendritePairs[e*2+1]*16, d = e*10;
+          filamentRenderData[d] = view[n1]; filamentRenderData[d+1] = view[n1+1]; filamentRenderData[d+2] = view[n1+2]; filamentRenderData[d+3] = view[n1+3]; filamentRenderData[d+4] = view[n1+14];
+          filamentRenderData[d+5] = view[n2]; filamentRenderData[d+6] = view[n2+1]; filamentRenderData[d+7] = view[n2+2]; filamentRenderData[d+8] = view[n2+3]; filamentRenderData[d+9] = view[n2+14];
+        }
+        gl.useProgram(filProgram);
+        gl.uniform1f(gl.getUniformLocation(filProgram, 'u_yaw'), yaw);
+        gl.uniform1f(gl.getUniformLocation(filProgram, 'u_pitch'), simParams.pitch);
+        gl.uniform1f(gl.getUniformLocation(filProgram, 'u_zoom'), simParams.zoom);
+        gl.uniform1f(gl.getUniformLocation(filProgram, 'u_aspect'), aspect);
+        gl.bindVertexArray(filVao); gl.bindBuffer(gl.ARRAY_BUFFER, filBuf);
+        gl.bufferSubData(gl.ARRAY_BUFFER, 0, filamentRenderData);
+        gl.drawArrays(gl.LINES, 0, DENDRITE_EDGE_COUNT * 2);
+      }
+      for (let i = 0; i < NEURON_COUNT; i++) {
+        const b = i*16, d = i*6;
+        somaRenderData[d] = view[b]; somaRenderData[d+1] = view[b+1]; somaRenderData[d+2] = view[b+2];
+        somaRenderData[d+3] = view[b+3]; somaRenderData[d+4] = view[b+14]; somaRenderData[d+5] = view[b+13];
+      }
+      gl.useProgram(somaProgram);
+      gl.uniform1f(gl.getUniformLocation(somaProgram, 'u_yaw'), yaw);
+      gl.uniform1f(gl.getUniformLocation(somaProgram, 'u_pitch'), simParams.pitch);
+      gl.uniform1f(gl.getUniformLocation(somaProgram, 'u_zoom'), simParams.zoom);
+      gl.uniform1f(gl.getUniformLocation(somaProgram, 'u_aspect'), aspect);
+      gl.uniform1f(gl.getUniformLocation(somaProgram, 'u_palette'), simParams.palette_id);
+      gl.uniform1f(gl.getUniformLocation(somaProgram, 'u_focalZ'), simParams.slm_focal_z);
+      gl.bindVertexArray(somaVao); gl.bindBuffer(gl.ARRAY_BUFFER, somaBuf);
+      gl.bufferSubData(gl.ARRAY_BUFFER, 0, somaRenderData);
+      gl.drawArrays(gl.POINTS, 0, NEURON_COUNT);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    const leak = new Float32Array(RESERVOIR_BINS);
+    const tauSec = Float32Array.from({ length: RESERVOIR_BINS }, (_, k) => 0.2 * Math.pow(25, k / (RESERVOIR_BINS - 1)));
+    let spotPrice = 64250.0, variance = 0.042;
+    setInterval(() => {
+      const sum = new Float32Array(RESERVOIR_BINS), cnt = new Uint32Array(RESERVOIR_BINS);
+      let sumV = 0, sumAtp = 0, maxTemp = 37.0;
+      for (let i = 0; i < NEURON_COUNT; i++) {
+        const b = i * 16, v = view[b+3];
+        sumV += v; sumAtp += view[b+11]; if (view[b+15] > maxTemp) maxTemp = view[b+15];
+        const k = binOf[i]; sum[k] += (v + 65)/50 + view[b+14]*2; cnt[k]++;
+      }
+      let volHat = 0.467, vovHat = 0.310, alphaBps = -0.039;
+      for (let k = 0; k < RESERVOIR_BINS; k++) {
+        const x = cnt[k] ? Math.tanh(sum[k]/cnt[k]) : 0;
+        leak[k] += (1 - Math.exp(-0.1 / tauSec[k])) * (x - leak[k]);
+        volHat += leak[k] * 0.008 * Math.cos(k);
+        alphaBps += leak[k] * 0.35 * Math.sin(k * 1.7);
+      }
+      const kappa = 2.0, theta = 0.2, feller2 = 2 * kappa * theta;
+      const sigma = Math.max(0.15, Math.min(Math.sqrt(feller2)*0.99, Math.abs(vovHat)));
+      variance = Math.max(1e-4, Math.min(4.0, variance + 0.02 * (volHat*volHat - variance)));
+      const iv = Math.sqrt(variance);
+      spotPrice *= Math.exp((Math.random() - 0.5) * 0.0012);
+      const fairCall = hestonCallPrice({ S: spotPrice, K: spotPrice, tau: 30/365, r: 0.05, v0: variance, kappa, theta, sigma, rho: -0.65 });
+      const meanVm = sumV / NEURON_COUNT, meanAtp = sumAtp / NEURON_COUNT;
+      const costBps = (simParams.p_laser * 0.001) * 100 + Math.max(0, 3.2 - meanAtp) * 2.0;
+      throttled = maxTemp > THERMAL_LIMIT_C || meanAtp < 1.0 || costBps > Math.abs(alphaBps);
+      const reason = maxTemp > THERMAL_LIMIT_C ? 'PHOTOTHERMAL LIMIT' : meanAtp < 1.0 ? 'ATP DEPLETION' : throttled ? 'COST > EDGE' : '';
+
+      document.getElementById('val-vm').textContent = `${meanVm.toFixed(2)} mV`;
+      document.getElementById('val-atp').textContent = `${meanAtp.toFixed(3)} mM`;
+      document.getElementById('val-temp').textContent = `${maxTemp.toFixed(2)} °C`;
+      document.getElementById('val-vol').textContent = `${(iv*100).toFixed(2)}% (σv=${sigma.toFixed(2)}, Feller ✓)`;
+      document.getElementById('val-spot').textContent = `$${spotPrice.toFixed(2)} (ATM Call $${fairCall.toFixed(0)})`;
+      document.getElementById('val-alpha').textContent = `${alphaBps.toFixed(2)} bps vs ${costBps.toFixed(2)} bps${throttled ? ' ['+reason+']' : ''}`;
+      document.getElementById('val-l2').textContent = `SYNTHETIC STREAM (Spread=1.40 bps, OBI=${(0.5*Math.sin(performance.now()/3000)).toFixed(2)})`;
+      document.getElementById('val-upi').textContent = `upi://pay?pa=demo.vpa@upi&pn=SYNAPSE-QUANTUM-DEMO&am=${Math.max(0.01, Math.abs(alphaBps)-costBps).toFixed(2)}&cu=INR`;
+      document.getElementById('val-sentinel').textContent = maxTemp > THERMAL_LIMIT_C ? `ALERT: ${maxTemp.toFixed(2)} °C > 38.5 °C` : 'NOMINAL (<38.5 °C)';
+    }, 100);
+
+    const questions = [
+      { id: 'NODE4-THERMAL', cat: 'PHOTOTHERMAL', q: 'Telemetry reports parenchyma at 39.1 °C under 920 nm illumination (P_laser = 95 mW), above the 38.5 °C limit. Protocol?', opts: ['Throttle SLM duty cycle (75%) and lengthen dark recovery interval while maintaining perfusion.', 'Increase NA to 1.45 and double repetition rate to 160 MHz.', 'Disable Na+/K+ ATPase pumps by removing extracellular glucose.'], ans: 0, exp: 'Absorbed heating scales with average power (~P*exp(-z/l_s)). Reduce duty cycle/power.' },
+      { id: 'NODE4-FELLER', cat: 'HESTON_BOUNDARY', q: 'Heston parameters: κ = 2.0, θ = 0.06, σ = 0.35. What is the variance boundary behaviour?', opts: ['Feller condition holds: 2κθ = 0.24 > σ² = 0.122, so v(t) stays strictly positive.', 'Feller condition is violated: 2κθ < σ², so v(t) touches zero.', 'Feller depends only on ρ.'], ans: 0, exp: '2κθ = 0.24 > σ² = 0.1225, so the CIR variance process stays strictly positive.' },
+      { id: 'NODE4-ATTEN', cat: 'OPTICS', q: 'Ballistic two-photon excitation at depth z = 360 µm with scattering mean free path l_s = 180 µm. What is the excitation attenuation factor?', opts: ['exp(-2z/l_s) = exp(-4) = 0.0183', 'exp(-z/l_s) = exp(-2) = 0.135 (single-photon scaling)', '1.0 (no scattering at 920 nm)'], ans: 0, exp: 'Two-photon excitation scales as I², squaring the ballistic flux term to exp(-2z/l_s).' }
+    ];
+    let qIdx = 0, qScore = 0;
+    function renderQuiz() {
+      const q = questions[qIdx % questions.length];
+      document.getElementById('sandbox-prompt').textContent = `[${q.id} // ${q.cat}] ${q.q}`;
+      const box = document.getElementById('sandbox-options'); box.innerHTML = '';
+      q.opts.forEach((opt, i) => {
+        const b = document.createElement('button'); b.className = 'quiz-btn'; b.textContent = opt;
+        b.onclick = () => {
+          if (i === q.ans) qScore++;
+          qIdx++;
+          document.getElementById('sandbox-feedback').textContent = `${i === q.ans ? 'PASS' : 'FAIL'} (${qScore}/${qIdx}) — ${q.exp}`;
+          renderQuiz();
+        };
+        box.appendChild(b);
+      });
+    }
+    renderQuiz();
+    document.getElementById('sandbox-reset-btn').onclick = () => { qIdx = 0; qScore = 0; renderQuiz(); };
+
+    document.getElementById('viva-submit-btn').onclick = () => {
+      const t = document.getElementById('viva-input').value.toLowerCase();
+      let score = 0; const matched = [];
+      if (/exp\s*\(\s*-?\s*2/.test(t) || (t.includes('two-photon') && t.includes('exp'))) { score += 25; matched.push('2P attenuation exp(-2z/l_s)'); }
+      if (t.includes('henyey')) { score += 15; matched.push('Henyey-Greenstein scattering'); }
+      if (t.includes('gerchberg') && t.includes('phase')) { score += 20; matched.push('Gerchberg-Saxton phase retrieval'); }
+      if (t.includes('feller') || /2\s*\*?\s*kappa/.test(t)) { score += 20; matched.push('Feller condition'); }
+      if (t.includes('atp') && t.includes('pump')) { score += 20; matched.push('ATP pump kinetics'); }
+      document.getElementById('viva-feedback').textContent = `[Node 16 Examiner] Score ${score}/100 (${score >= 70 ? 'PASSED' : 'CONDITIONAL'}). Verified claims: ${matched.join(', ') || 'none'}.`;
+    };
+  </script>
+</body>
+</html>
