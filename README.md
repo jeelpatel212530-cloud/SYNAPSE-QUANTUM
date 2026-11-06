@@ -110,6 +110,10 @@ extensions/python-daemon/          FFmpeg reel daemon
 data-reservoir/training/           ridge trainer and ONNX exporter
 public/models/                     readout weights (.json) and graph (.onnx)
 ```
+#Screenshots 
+<img width="1696" height="914" alt="Screenshot 2026-11-06 at 5 16 53 PM" src="https://github.com/user-attachments/assets/37b004d3-2715-4e13-8f79-65adeb0a80a8" />
+<img width="1695" height="402" alt="Screenshot 2026-11-06 at 5 17 32 PM" src="https://github.com/user-attachments/assets/b1063feb-d0fe-45fd-a549-2ed13eba4b09" />
+
 
 ## Disclaimer
 
