@@ -116,21 +116,20 @@ Requires `ffmpeg` on `PATH`. If `raw.events.json` (`{"bursts":[{"t":12.3,"dur":6
 
 ## 📂 Project Layout
 
-```text
-index.html                         console UI
-src/main.ts                        orchestrator, camera, controls, recorder
-src/constants.ts                   shared constants and telemetry layout
-src/core-physics/workers/          physics + WebGL2 worker
-src/core-physics/wgsl/             RK4 compute shader
-src/optics/gerchberg_saxton.ts     FFT-based GS
-src/data-reservoir/                LSM readout, Heston filter and pricer
-src/nodes/                         quiz/viva engine, PDF suite
-extensions/manifest-v3/            Chrome extension
-extensions/python-daemon/          FFmpeg reel daemon
-data-reservoir/training/           ridge trainer and ONNX exporter
-public/models/                     readout weights (.json) and graph (.onnx)
-```
-
+├── index.html                           # Console UI
+├── src/
+│   ├── main.ts                          # Orchestrator, camera, controls, recorder
+│   ├── constants.ts                     # Shared constants & telemetry layout
+│   ├── core-physics/workers/            # Physics + WebGL2 worker
+│   ├── core-physics/wgsl/               # RK4 compute shader
+│   ├── optics/gerchberg_saxton.ts       # FFT-based GS
+│   ├── data-reservoir/                  # LSM readout, Heston filter & pricer
+│   └── nodes/                           # Quiz/viva engine, PDF suite
+├── extensions/
+│   ├── manifest-v3/                     # Chrome extension
+│   └── python-daemon/                   # FFmpeg reel daemon
+├── data-reservoir/training/             # Ridge trainer and ONNX exporter
+└── public/models/                       # Readout weights (.json) and graph (.onnx)
 ---
 
 ## 📸 Screenshots
