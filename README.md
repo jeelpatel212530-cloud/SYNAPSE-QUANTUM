@@ -135,12 +135,9 @@ public/models/                     readout weights (.json) and graph (.onnx)
 
 ## 📸 Screenshots
 
-<p align="center">
-  <img width="1696" height="914" alt="Screenshot 2026-11-06 at 5 16 53 PM" src="[https://github.com/user-attachments/assets/37b004d3-2715-4e13-8f79-65adeb0a80a8](https://github.com/user-attachments/assets/37b004d3-2715-4e13-8f79-65adeb0a80a8)" />
-</p>
-<p align="center">
-  <img width="1695" height="402" alt="Screenshot 2026-11-06 at 5 17 32 PM" src="[https://github.com/user-attachments/assets/b1063feb-d0fe-45fd-a549-2ed13eba4b09](https://github.com/user-attachments/assets/b1063feb-d0fe-45fd-a549-2ed13eba4b09)" />
-</p>
+<img width="1696" height="914" alt="Screenshot 2026-11-06 at 5 16 53 PM" src="https://github.com/user-attachments/assets/798b8c1e-5a58-45cf-b821-2d613afa9ec6" />
+<img width="1695" height="402" alt="Screenshot 2026-11-06 at 5 17 32 PM" src="https://github.com/user-attachments/assets/4bfd1184-0c83-4832-8bd6-8b10ffa8f15b" />
+
 
 ---
 
