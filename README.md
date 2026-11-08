@@ -116,6 +116,7 @@ Requires `ffmpeg` on `PATH`. If `raw.events.json` (`{"bursts":[{"t":12.3,"dur":6
 
 ## 📂 Project Layout
 
+~~~text
 ├── index.html                           # Console UI
 ├── src/
 │   ├── main.ts                          # Orchestrator, camera, controls, recorder
@@ -130,7 +131,7 @@ Requires `ffmpeg` on `PATH`. If `raw.events.json` (`{"bursts":[{"t":12.3,"dur":6
 │   └── python-daemon/                   # FFmpeg reel daemon
 ├── data-reservoir/training/             # Ridge trainer and ONNX exporter
 └── public/models/                       # Readout weights (.json) and graph (.onnx)
----
+~~~
 
 ## 📸 Screenshots
 
