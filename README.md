@@ -1,6 +1,6 @@
 # 🧠 SYNAPSE-QUANTUM v3.0 | *Cleanroom Console*
 
-**[🚀 Launch Live Demo (Google Sites Embed)]([(https://sites.google.com/view/synapse-quantum-v3-0-cleanroom/full-page-embed)])**
+**[🚀 Launch Live Demo (Google Sites Embed)]((https://sites.google.com/view/synapse-quantum-v3-0-cleanroom/full-page-embed))**
 
 An offline-first, in-browser **simulation** of a **10,240-neuron cortical organoid** driven by a two-photon holographic SLM, whose firing activity is read out by a ridge-regression liquid state machine to feed a Heston-style volatility filter and pricer. It is a research/teaching prototype. It is **not** a trading system, and nothing it prints is financial or lab-record output.
 
